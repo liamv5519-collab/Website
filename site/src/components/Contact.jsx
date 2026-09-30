@@ -9,10 +9,15 @@ import SplitWords from './SplitWords'
 const field =
   'w-full border-b border-moon/20 bg-transparent py-3 text-[1rem] text-moon placeholder:text-mist/60 outline-none transition-colors duration-500 focus:border-gold'
 
+// Formspree endpoint: set VITE_FORM_ENDPOINT in the host's environment, or
+// fill in contact.formEndpoint in content.js.
+const ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT || contact.formEndpoint
+
 export default function Contact() {
   const root = useRef(null)
   const [budget, setBudget] = useState(contact.budgets[1])
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -33,20 +38,32 @@ export default function Contact() {
     return () => ctx.revert()
   }, [])
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
-    const d = new FormData(e.currentTarget)
-    const body = [
-      `Name: ${d.get('name')}`,
-      `Email: ${d.get('email')}`,
-      `Business: ${d.get('business')}`,
-      `Website: ${d.get('site') || '—'}`,
-      `Monthly ad budget: ${budget}`,
-      '',
-      d.get('message') || '',
-    ].join('\n')
-    window.location.href = `mailto:${brand.email}?subject=${encodeURIComponent(`Strategy call — ${d.get('business')}`)}&body=${encodeURIComponent(body)}`
-    setSent(true)
+    if (status === 'sending') return
+    if (!ENDPOINT) {
+      setError(contact.errors.notConnected)
+      setStatus('error')
+      return
+    }
+    const form = e.currentTarget
+    const data = new FormData(form)
+    data.set('budget', budget)
+    data.set('_subject', `Strategy call — ${data.get('business')}`)
+    setStatus('sending')
+    setError('')
+    try {
+      const res = await fetch(ENDPOINT, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+      if (!res.ok) {
+        const json = await res.json().catch(() => null)
+        throw new Error(json?.errors?.map((x) => x.message).join(' ') || contact.errors.failed)
+      }
+      form.reset()
+      setStatus('sent')
+    } catch (err) {
+      setError(err.message || contact.errors.failed)
+      setStatus('error')
+    }
   }
 
   return (
@@ -75,25 +92,37 @@ export default function Contact() {
             ))}
           </h2>
           <p className="ct-fade mt-8 max-w-[440px] leading-relaxed text-moon/75">{contact.body}</p>
-          <a href={`mailto:${brand.email}`} className="ct-fade link-draw mt-10 inline-block font-display text-2xl italic text-gold-soft">
-            {brand.email}
-          </a>
+          {brand.email && (
+            <a href={`mailto:${brand.email}`} className="ct-fade link-draw mt-10 inline-block font-display text-2xl italic text-gold-soft">
+              {brand.email}
+            </a>
+          )}
         </div>
 
         <div className="ct-fade md:col-span-5 md:col-start-8">
           <div className="relative rounded-[28px] border border-moon/10 bg-ink/45 p-8 backdrop-blur-xl md:p-10">
             <AnimatePresence mode="wait">
-              {sent ? (
-                <motion.div key="done" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }} className="py-16 text-center">
-                  <p className="eyebrow mb-6">Received</p>
-                  <p className="display text-4xl text-moon">Your email is ready to send.</p>
-                  <p className="mt-6 text-mist">If your mail app didn’t open, write to us directly at {brand.email}.</p>
-                  <button type="button" onClick={() => setSent(false)} className="link-draw mt-10 text-[0.8rem] uppercase tracking-[0.2em] text-gold-soft">
-                    Back to the form
+              {status === 'sent' ? (
+                <motion.div
+                  key="done"
+                  role="status"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                  className="py-16 text-center"
+                >
+                  <span aria-hidden className="mx-auto mb-8 block h-[9px] w-[9px] rotate-45 bg-gold shadow-[0_0_22px_rgba(201,164,92,0.9)]" />
+                  <p className="eyebrow mb-6">{contact.sent.eyebrow}</p>
+                  <p className="display text-4xl text-moon">{contact.sent.title}</p>
+                  <p className="mx-auto mt-6 max-w-[360px] leading-relaxed text-mist">{contact.sent.body}</p>
+                  <button type="button" onClick={() => setStatus('idle')} className="link-draw mt-10 text-[0.8rem] uppercase tracking-[0.2em] text-gold-soft">
+                    Send another enquiry
                   </button>
                 </motion.div>
               ) : (
                 <motion.form key="form" onSubmit={submit} exit={{ opacity: 0, y: -20 }} className="space-y-7">
+                  {/* Honeypot: hidden from people, filled in by spam bots. */}
+                  <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
                   <div className="grid gap-7 sm:grid-cols-2">
                     <label className="block">
                       <span className="eyebrow text-[0.6rem] text-mist">Your name</span>
@@ -136,8 +165,23 @@ export default function Contact() {
                     <span className="eyebrow text-[0.6rem] text-mist">What does a good month look like?</span>
                     <textarea name="message" rows={3} className={`${field} resize-none`} placeholder="Forty booked consultations at under $60 each." />
                   </label>
-                  <div className="pt-2">
-                    <Button type="submit">{contact.submit}</Button>
+                  <div className="flex flex-wrap items-center gap-6 pt-2">
+                    <Button type="submit" disabled={status === 'sending'}>
+                      {status === 'sending' ? contact.sending : contact.submit}
+                    </Button>
+                    <AnimatePresence>
+                      {status === 'error' && (
+                        <motion.p
+                          role="alert"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0 }}
+                          className="max-w-[300px] text-[0.85rem] leading-relaxed text-gold-soft"
+                        >
+                          {error}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </motion.form>
               )}

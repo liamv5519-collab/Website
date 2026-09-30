@@ -3,8 +3,8 @@
 export const brand = {
   name: 'Bridge Marketing',
   short: 'Bridge',
-  // TODO: replace with the real inbox before launch.
-  email: 'hello@bridgemarketing.co',
+  // Public contact email. Leave empty to hide every email link on the site.
+  email: '',
 }
 
 export const nav = [
@@ -125,9 +125,22 @@ export const manifesto = {
 export const contact = {
   eyebrow: 'Contact',
   title: ['Let’s put your name', 'on the skyline.'],
-  body: 'Tell us about the business and what a good month looks like. We reply within one working day with a first read of your account.',
+  body: 'Tell us about the business and what a good month looks like. We reply with a first read of your account.',
   budgets: ['Under $2,000 / month', '$2,000 – $5,000 / month', '$5,000 – $15,000 / month', '$15,000+ / month'],
   submit: 'Request a strategy call',
+  sending: 'Sending…',
+  // Where enquiries are delivered. Create a free form at https://formspree.io,
+  // then paste its endpoint here, e.g. 'https://formspree.io/f/abcdwxyz'.
+  formEndpoint: '',
+  sent: {
+    eyebrow: 'Received',
+    title: 'Thank you. Your enquiry is in.',
+    body: 'We read every one ourselves and will be in touch shortly with a first read of your account.',
+  },
+  errors: {
+    notConnected: 'Enquiries open very soon — the form isn’t connected yet.',
+    failed: 'That didn’t go through. Please check your connection and try again.',
+  },
 }
 
 export const footer = {

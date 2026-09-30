@@ -36,14 +36,32 @@ with dedicated phone layouts for the pinned sections.
 4. **Approach** — pinned horizontal walk: lobby → boardroom → facade → penthouse.
 5. **Reporting** — the five numbers that lead every report, over the aerial view.
 6. **Manifesto** — the spire revealed from street level up.
-7. **Contact** — the marina, a yacht gliding across on scroll, and a brief form
-   (opens the visitor's mail app, pre-filled).
+7. **Contact** — the marina, a yacht gliding across on scroll, and an enquiry
+   form that delivers to your inbox via Formspree.
+
+## Connecting the contact form
+
+Enquiries are sent through [Formspree](https://formspree.io) (free plan: 50
+submissions a month).
+
+1. Sign up at formspree.io and create a new form. Formspree asks for the email
+   address the enquiries should go to.
+2. Copy the form's endpoint — it looks like `https://formspree.io/f/abcdwxyz`.
+3. Either paste it into `contact.formEndpoint` in `site/src/content.js`, or add
+   it as an environment variable named `VITE_FORM_ENDPOINT` in your host
+   (Vercel → Project → Settings → Environment Variables) and redeploy.
+
+Until an endpoint is set, the form tells visitors enquiries open soon instead
+of failing silently. Each enquiry arrives with the name, email, business,
+website, chosen budget and message, subject "Strategy call — <business>". A
+hidden honeypot field filters out most spam bots.
 
 ## Editing copy
 
 All text is in [`site/src/content.js`](site/src/content.js). Before launch:
 
-- Replace `brand.email` (`hello@bridgemarketing.co` is a placeholder).
+- Set `brand.email` if you want a public email address shown (it is hidden
+  while empty).
 - Check every service "detail" line and the process steps match how you work —
   they are written as commitments to clients.
 

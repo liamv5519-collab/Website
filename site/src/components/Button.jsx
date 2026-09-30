@@ -2,7 +2,7 @@ import Magnetic from './Magnetic'
 import { scrollTo } from '../lib/motion'
 
 // Pill button. The gold fill rises from below on hover; label rolls over.
-export default function Button({ children, href, onClick, variant = 'gold', type = 'button', className = '' }) {
+export default function Button({ children, href, onClick, variant = 'gold', type = 'button', disabled = false, className = '' }) {
   const handle = (e) => {
     if (href?.startsWith('#')) {
       e.preventDefault()
@@ -39,7 +39,7 @@ export default function Button({ children, href, onClick, variant = 'gold', type
           {inner}
         </a>
       ) : (
-        <button type={type} onClick={handle} className={`${base} ${look} ${className}`}>
+        <button type={type} onClick={handle} disabled={disabled} className={`${base} ${look} disabled:cursor-wait disabled:opacity-60 ${className}`}>
           {inner}
         </button>
       )}

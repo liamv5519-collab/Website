@@ -37,9 +37,15 @@ export default function Footer() {
         </nav>
         <div className="flex flex-col gap-3 md:col-span-3">
           <span className="eyebrow mb-2 text-mist">Talk to us</span>
-          <a href={`mailto:${brand.email}`} className="link-draw w-fit text-moon/75 hover:text-moon">
-            {brand.email}
-          </a>
+          {brand.email ? (
+            <a href={`mailto:${brand.email}`} className="link-draw w-fit text-moon/75 hover:text-moon">
+              {brand.email}
+            </a>
+          ) : (
+            <a href="#contact" onClick={(e) => go(e, '#contact')} className="link-draw w-fit text-moon/75 hover:text-moon">
+              Book a strategy call
+            </a>
+          )}
           <a href="#top" onClick={(e) => go(e, '#top')} className="link-draw mt-6 w-fit text-[0.75rem] uppercase tracking-[0.2em] text-gold-soft">
             Back to the top ↑
           </a>
