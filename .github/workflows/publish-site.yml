@@ -1,7 +1,9 @@
-# Rebuilds the site and republishes it to GitHub Pages on every change to main.
-# The build is pushed to gh-pages (the branch Pages serves) and a Pages
-# rebuild is requested, so the live site updates about a minute after each
-# push — including edits committed on github.com.
+# Rebuilds the site and publishes it to GitHub Pages on every change to main,
+# so the live site updates about a minute after each push — including edits
+# committed on github.com.
+#
+# One-time setup: repo Settings → Pages → Build and deployment → Source:
+# "GitHub Actions".
 name: Publish site
 
 on:
@@ -10,23 +12,24 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
+  id-token: write
 
 concurrency:
-  group: publish-site
+  group: pages
   cancel-in-progress: true
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: site
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -37,26 +40,16 @@ jobs:
       # Pages serves the site from /<repo name>/, so asset paths need that prefix.
       - run: npx vite build --base=/${{ github.event.repository.name }}/
 
-      - name: Push the build to the gh-pages branch
-        working-directory: site/dist
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          touch .nojekyll
-          git init -q -b gh-pages
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -q -m "Publish site from ${GITHUB_SHA::7}"
-          git push -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/dist
 
-      # Pushes made with the workflow token don't start a Pages deployment on
-      # their own, so ask GitHub to rebuild the site from gh-pages explicitly.
-      - name: Ask GitHub Pages to publish the new build
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          curl -fsS -X POST \
-            -H "Authorization: Bearer ${TOKEN}" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds"
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
