@@ -1,6 +1,7 @@
 # Rebuilds the site and republishes it to GitHub Pages on every change to main.
-# Pages serves the gh-pages branch, so the live site updates about a minute
-# after each push (or after editing a file on github.com and committing it).
+# The build is pushed to gh-pages (the branch Pages serves) and a Pages
+# rebuild is requested, so the live site updates about a minute after each
+# push — including edits committed on github.com.
 name: Publish site
 
 on:
@@ -10,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  pages: write
 
 concurrency:
   group: publish-site
@@ -47,3 +49,14 @@ jobs:
           git add -A
           git commit -q -m "Publish site from ${GITHUB_SHA::7}"
           git push -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+
+      # Pushes made with the workflow token don't start a Pages deployment on
+      # their own, so ask GitHub to rebuild the site from gh-pages explicitly.
+      - name: Ask GitHub Pages to publish the new build
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer ${TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds"
