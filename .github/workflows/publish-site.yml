@@ -4,11 +4,16 @@
 #
 # One-time setup: repo Settings → Pages → Build and deployment → Source:
 # "GitHub Actions".
+#
+# Pages only accepts deployments from the repo's default branch, so the
+# workflow listens to both long-lived branches and publishes from whichever
+# one is the default. If you change the default branch, also allow it under
+# Settings → Environments → github-pages → Deployment branches.
 name: Publish site
 
 on:
   push:
-    branches: [main]
+    branches: [main, claude/confident-bardeen-f6gpqj]
   workflow_dispatch:
 
 permissions:
@@ -22,6 +27,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     defaults:
       run:
