@@ -16,6 +16,21 @@ npm run build    # production build → site/dist
 Deploys as a static site (Vercel, Netlify, Cloudflare Pages, S3…): build command
 `npm run build`, output directory `site/dist`.
 
+## Live site and editing
+
+Live at **https://liamv5519-collab.github.io/Website/** (GitHub Pages, serving
+the `gh-pages` branch).
+
+The site republishes itself: every change committed to `main` runs the
+[Publish site](.github/workflows/publish-site.yml) workflow, which builds the
+site and pushes it to `gh-pages`. The live page updates about a minute later
+(hard-refresh with Cmd+Shift+R to skip the browser's cache). You can follow a
+run under the repo's **Actions** tab.
+
+To edit text yourself on github.com: open `site/src/content.js`, click the
+pencil icon, change the words between the quotes, then **Commit changes** to
+`main`.
+
 ## Stack
 
 React 19 + Vite · Tailwind CSS v4 · GSAP + ScrollTrigger (native scrolling) ·

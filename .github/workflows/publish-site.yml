@@ -1,0 +1,49 @@
+# Rebuilds the site and republishes it to GitHub Pages on every change to main.
+# Pages serves the gh-pages branch, so the live site updates about a minute
+# after each push (or after editing a file on github.com and committing it).
+name: Publish site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-site
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - run: npm ci
+
+      # Pages serves the site from /<repo name>/, so asset paths need that prefix.
+      - run: npx vite build --base=/${{ github.event.repository.name }}/
+
+      - name: Push the build to the gh-pages branch
+        working-directory: site/dist
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          touch .nojekyll
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Publish site from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
