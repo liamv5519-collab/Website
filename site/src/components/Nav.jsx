@@ -29,7 +29,7 @@ export default function Nav({ ready }) {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[transform,opacity,background-color] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
         hidden ? '-translate-y-full' : 'translate-y-0'
-      } ${ready ? 'opacity-100' : 'opacity-0'} ${solid ? 'bg-ink/55 backdrop-blur-md' : 'bg-transparent'}`}
+      } ${ready ? 'opacity-100' : 'opacity-0'} ${solid ? 'bg-ink/85' : 'bg-transparent'}`}
     >
       <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-6 md:px-12">
         <a href="#top" onClick={(e) => go(e, '#top')} className="flex items-baseline gap-3">

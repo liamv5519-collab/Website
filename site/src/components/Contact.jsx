@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { assets } from '../assets'
 import { brand, contact } from '../content'
-import { gsap } from '../lib/motion'
+import { gsap, SCRUB } from '../lib/motion'
 import Button from './Button'
 import SplitWords from './SplitWords'
 
@@ -30,7 +30,7 @@ export default function Contact() {
       gsap.fromTo(
         '.ct-yacht',
         { xPercent: -130 },
-        { xPercent: 260, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: 1.5 } },
+        { xPercent: 260, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: SCRUB } },
       )
       gsap.from('.ct-word', { yPercent: 110, duration: 1.6, stagger: 0.06, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 60%' } })
       gsap.from('.ct-fade', { opacity: 0, y: 40, duration: 1.4, stagger: 0.1, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 55%' } })
@@ -100,7 +100,7 @@ export default function Contact() {
         </div>
 
         <div className="ct-fade md:col-span-5 md:col-start-8">
-          <div className="relative rounded-[28px] border border-moon/10 bg-ink/45 p-8 backdrop-blur-xl md:p-10">
+          <div className="relative rounded-[28px] border border-moon/10 bg-ink/80 p-8 md:p-10">
             <AnimatePresence mode="wait">
               {status === 'sent' ? (
                 <motion.div

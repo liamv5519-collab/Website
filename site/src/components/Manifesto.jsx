@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { assets } from '../assets'
 import { manifesto } from '../content'
-import { gsap } from '../lib/motion'
+import { gsap, SCRUB } from '../lib/motion'
 import SplitWords from './SplitWords'
 
 // The spire, revealed from street level upward, beside the one line we work by.
@@ -11,7 +11,7 @@ export default function Manifesto() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap
-        .timeline({ scrollTrigger: { trigger: root.current, start: 'top 70%', end: 'center center', scrub: 1.2 } })
+        .timeline({ scrollTrigger: { trigger: root.current, start: 'top 70%', end: 'center center', scrub: SCRUB } })
         .fromTo('.mf-frame', { clipPath: 'inset(100% 0% 0% 0% round 999px 999px 0 0)' }, { clipPath: 'inset(0% 0% 0% 0% round 999px 999px 0 0)', ease: 'none' })
         .fromTo('.mf-img', { scale: 1.35, yPercent: 12 }, { scale: 1.05, yPercent: 0, ease: 'none' }, 0)
       gsap.from('.mf-word', {

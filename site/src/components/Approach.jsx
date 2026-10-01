@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { assets } from '../assets'
 import { approach } from '../content'
-import { gsap } from '../lib/motion'
+import { gsap, SCRUB } from '../lib/motion'
 
 // Pinned horizontal walk through the building: lobby → boardroom → facade →
 // penthouse. Each photograph drifts against the track for depth.
@@ -22,7 +22,7 @@ export default function Approach() {
             start: 'top top',
             end: () => `+=${distance()}`,
             pin: true,
-            scrub: 1,
+            scrub: SCRUB,
             invalidateOnRefresh: true,
           },
         })

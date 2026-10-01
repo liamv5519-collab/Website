@@ -18,8 +18,8 @@ Deploys as a static site (Vercel, Netlify, Cloudflare Pages, S3…): build comma
 
 ## Stack
 
-React 19 + Vite · Tailwind CSS v4 · GSAP + ScrollTrigger · Lenis smooth scroll ·
-Framer Motion (cursor, magnetic buttons, form states). Desktop-first at 1440px,
+React 19 + Vite · Tailwind CSS v4 · GSAP + ScrollTrigger (native scrolling) ·
+Framer Motion (magnetic buttons, form states). Desktop-first at 1440px,
 with dedicated phone layouts for the pinned sections.
 
 ## Sections
@@ -27,7 +27,7 @@ with dedicated phone layouts for the pinned sections.
 1. **Hero** — the master photograph with a canvas layer of white strobe sparkles
    locked to the tower's outline; pointer parallax; hover the tower for a burst.
 2. **Statement** — pinned; words brighten as you scroll while the moon rises.
-3. **The Light Show (showpiece)** — pinned for ~7 screens. A slit of light
+3. **The Light Show (showpiece)** — pinned for ~5 screens. A slit of light
    centred on the tower opens to full-bleed footage of the tower sparkling.
    A floor rail climbs 01 → 05; each floor brings in one service with a white
    flash and a sweep of strobe lights from base to spire. The frame folds back

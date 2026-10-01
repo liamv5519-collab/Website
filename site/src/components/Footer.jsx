@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { brand, footer, nav } from '../content'
-import { gsap, scrollTo } from '../lib/motion'
+import { gsap, scrollTo, SCRUB } from '../lib/motion'
 
 const YEAR = new Date().getFullYear()
 
@@ -12,7 +12,7 @@ export default function Footer() {
       gsap.fromTo(
         '.ft-mark',
         { yPercent: 40, opacity: 0.2 },
-        { yPercent: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom bottom', scrub: 1 } },
+        { yPercent: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom bottom', scrub: SCRUB } },
       )
     }, root)
     return () => ctx.revert()

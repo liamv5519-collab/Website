@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { assets } from '../assets'
 import { statement } from '../content'
-import { gsap } from '../lib/motion'
+import { gsap, SCRUB } from '../lib/motion'
 
 // Pinned manifesto: each word brightens as you read down the page while the
 // moon rises slowly behind the type.
@@ -15,7 +15,7 @@ export default function Statement() {
       mm.add('(min-width: 768px)', () => {
         gsap
           .timeline({
-            scrollTrigger: { trigger: root.current, start: 'top top', end: '+=160%', scrub: 1, pin: true },
+            scrollTrigger: { trigger: root.current, start: 'top top', end: '+=110%', scrub: SCRUB, pin: true },
           })
           .fromTo('.st-word', { opacity: 0.12 }, { opacity: 1, stagger: 0.12, ease: 'none' }, 0)
           .fromTo('.st-moon', { yPercent: 60, scale: 0.86 }, { yPercent: -18, scale: 1, ease: 'none', duration: 3.2 }, 0)
@@ -25,7 +25,7 @@ export default function Statement() {
         gsap.fromTo(
           '.st-word',
           { opacity: 0.15 },
-          { opacity: 1, stagger: 0.05, scrollTrigger: { trigger: root.current, start: 'top 70%', end: 'bottom 60%', scrub: 1 } },
+          { opacity: 1, stagger: 0.05, scrollTrigger: { trigger: root.current, start: 'top 70%', end: 'bottom 60%', scrub: SCRUB } },
         )
       })
     }, root)

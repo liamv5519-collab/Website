@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ScrollTrigger, startSmoothScroll } from './lib/motion'
+import { ScrollTrigger } from './lib/motion'
 import Approach from './components/Approach'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
@@ -16,7 +16,6 @@ export default function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    startSmoothScroll()
     const refresh = () => ScrollTrigger.refresh()
     window.addEventListener('load', refresh)
     document.fonts?.ready.then(refresh)

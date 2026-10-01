@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { assets, towerShape } from '../assets'
 import { lightShow } from '../content'
-import { gsap } from '../lib/motion'
+import { gsap, SCRUB } from '../lib/motion'
 import useMedia from '../hooks/useMedia'
 import Button from './Button'
 import Sparkles from './Sparkles'
@@ -70,9 +70,9 @@ function Stage() {
         scrollTrigger: {
           trigger: root.current,
           start: 'top top',
-          end: '+=700%',
+          end: '+=480%',
           pin: true,
-          scrub: 1.1,
+          scrub: SCRUB,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const t = self.progress * TOTAL

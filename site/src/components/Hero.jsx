@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { assets, towerShape } from '../assets'
 import { hero } from '../content'
-import { gsap, reducedMotion } from '../lib/motion'
+import { gsap, reducedMotion, SCRUB } from '../lib/motion'
 import useMedia from '../hooks/useMedia'
 import Button from './Button'
 import SplitWords from './SplitWords'
@@ -21,7 +21,7 @@ export default function Hero({ ready }) {
       gsap.set('.hero-media', { scale: 1.22, filter: 'brightness(0.35)' })
 
       gsap
-        .timeline({ scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: 1.2 } })
+        .timeline({ scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: SCRUB } })
         .to('.hero-zoom', { scale: 1.14, yPercent: 7, ease: 'none' }, 0)
         .to('.hero-copy', { y: -140, opacity: 0, ease: 'none' }, 0)
         .to('.hero-shade', { opacity: 0.75, ease: 'none' }, 0)
