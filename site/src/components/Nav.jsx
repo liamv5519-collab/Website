@@ -4,7 +4,7 @@ import { ScrollTrigger, scrollTo } from '../lib/motion'
 import Button from './Button'
 
 // Fixed bar that steps out of the way on the way down and returns on the way up.
-export default function Nav({ ready }) {
+export default function Nav() {
   const [hidden, setHidden] = useState(false)
   const [solid, setSolid] = useState(false)
 
@@ -27,9 +27,9 @@ export default function Nav({ ready }) {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[transform,opacity,background-color] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`fixed inset-x-0 top-0 z-50 transition-[transform,background-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         hidden ? '-translate-y-full' : 'translate-y-0'
-      } ${ready ? 'opacity-100' : 'opacity-0'} ${solid ? 'bg-ink/85' : 'bg-transparent'}`}
+      } ${solid ? 'bg-ink/85' : 'bg-transparent'}`}
     >
       <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-6 md:px-12">
         <a href="#top" onClick={(e) => go(e, '#top')} className="flex items-baseline gap-3">

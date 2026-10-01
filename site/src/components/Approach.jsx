@@ -63,8 +63,8 @@ export default function Approach() {
       <div ref={track} className="flex h-full flex-col gap-16 px-6 py-24 min-[900px]:w-max min-[900px]:flex-row min-[900px]:items-center min-[900px]:gap-[6vw] min-[900px]:px-[6vw] min-[900px]:py-0">
         <div className="shrink-0 min-[900px]:w-[34vw]">
           <p className="eyebrow mb-8">{approach.eyebrow}</p>
-          <h2 className="display text-[clamp(3rem,6vw,6.6rem)] text-moon">
-            How a tower <span className="italic text-gold-soft">goes up.</span>
+          <h2 className="display text-[clamp(2.6rem,4.8vw,5.4rem)] text-moon">
+            How a tower <span className="accent">goes up.</span>
           </h2>
           <p className="mt-8 max-w-[380px] leading-relaxed text-mist">
             Four rooms, in order. Nothing gets built before the plan is signed, and nothing launches before it is tested.
@@ -89,7 +89,7 @@ export default function Approach() {
                 <p className="eyebrow mb-4 text-mist">
                   {s.room} <span className="text-moon/30">·</span> {s.when}
                 </p>
-                <h3 className="display text-[2.6rem] text-moon">{s.title}</h3>
+                <h3 className="display text-[2rem] text-moon">{s.title}</h3>
                 <p className="mt-5 leading-relaxed text-moon/70">{s.body}</p>
               </div>
             </article>

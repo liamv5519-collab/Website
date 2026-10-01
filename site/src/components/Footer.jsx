@@ -26,7 +26,7 @@ export default function Footer() {
   return (
     <footer ref={root} className="relative overflow-hidden border-t border-moon/10 bg-ink pt-24">
       <div className="mx-auto grid max-w-[1440px] gap-12 px-6 md:grid-cols-12 md:px-12">
-        <p className="display text-3xl leading-snug text-moon/85 md:col-span-5">{footer.line}</p>
+        <p className="display text-2xl leading-snug text-moon/85 md:col-span-5">{footer.line}</p>
         <nav className="flex flex-col gap-3 md:col-span-2 md:col-start-8">
           <span className="eyebrow mb-2 text-mist">Explore</span>
           {nav.map((n) => (
@@ -55,7 +55,7 @@ export default function Footer() {
       <div className="relative mt-20 overflow-hidden pb-[3vw]">
         <p
           aria-hidden
-          className="ft-mark display select-none whitespace-nowrap text-center text-[25vw] leading-[0.9] tracking-[-0.03em]"
+          className="ft-mark display select-none whitespace-nowrap text-center text-[19vw] leading-[0.95] tracking-[-0.03em]"
           style={{
             color: 'transparent',
             WebkitTextStroke: '1px rgba(201,164,92,0.5)',

@@ -1,7 +1,6 @@
-import Magnetic from './Magnetic'
 import { scrollTo } from '../lib/motion'
 
-// Pill button. The gold fill rises from below on hover; label rolls over.
+// Pill button: fills with colour on hover.
 export default function Button({ children, href, onClick, variant = 'gold', type = 'button', disabled = false, className = '' }) {
   const handle = (e) => {
     if (href?.startsWith('#')) {
@@ -11,38 +10,19 @@ export default function Button({ children, href, onClick, variant = 'gold', type
     onClick?.(e)
   }
   const base =
-    'group relative inline-flex h-14 items-center overflow-hidden rounded-full px-8 text-[0.78rem] font-medium uppercase tracking-[0.22em] transition-colors duration-700'
+    'inline-flex h-13 items-center rounded-full border px-7 text-[0.8rem] font-medium uppercase tracking-[0.16em] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold disabled:opacity-60'
   const look =
     variant === 'gold'
-      ? 'border border-gold/70 text-gold-soft hover:text-ink'
-      : 'border border-moon/25 text-moon hover:text-ink'
-  const inner = (
-    <>
-      <span
-        aria-hidden
-        className={`absolute inset-0 translate-y-[101%] rounded-full transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 ${
-          variant === 'gold' ? 'bg-gold' : 'bg-moon'
-        }`}
-      />
-      <span className="relative block overflow-hidden">
-        <span className="block transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-full">{children}</span>
-        <span aria-hidden className="absolute inset-0 block translate-y-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0">
-          {children}
-        </span>
-      </span>
-    </>
-  )
-  return (
-    <Magnetic>
-      {href ? (
-        <a href={href} onClick={handle} className={`${base} ${look} ${className}`}>
-          {inner}
-        </a>
-      ) : (
-        <button type={type} onClick={handle} disabled={disabled} className={`${base} ${look} disabled:cursor-wait disabled:opacity-60 ${className}`}>
-          {inner}
-        </button>
-      )}
-    </Magnetic>
+      ? 'border-gold/80 text-gold-soft hover:bg-gold hover:text-ink'
+      : 'border-moon/30 text-moon hover:bg-moon hover:text-ink'
+  const cls = `${base} ${look} ${className}`
+  return href ? (
+    <a href={href} onClick={handle} className={cls}>
+      {children}
+    </a>
+  ) : (
+    <button type={type} onClick={handle} disabled={disabled} className={cls}>
+      {children}
+    </button>
   )
 }

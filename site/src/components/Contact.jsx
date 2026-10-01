@@ -84,16 +84,16 @@ export default function Contact() {
       <div className="relative z-[2] mx-auto grid min-h-[100svh] max-w-[1440px] items-center gap-16 px-6 py-32 md:grid-cols-12 md:px-12">
         <div className="md:col-span-6">
           <p className="ct-fade eyebrow mb-8">{contact.eyebrow}</p>
-          <h2 className="display text-[clamp(2.8rem,4.8vw,5.6rem)] text-moon">
+          <h2 className="display text-[clamp(2.4rem,4.2vw,4.8rem)] text-moon">
             {contact.title.map((l, i) => (
               <span key={i} className="block">
-                <SplitWords text={l} wordClass="ct-word" className={i === 1 ? 'italic text-gold-soft' : ''} />
+                <SplitWords text={l} wordClass="ct-word" className={i === 1 ? 'accent' : ''} />
               </span>
             ))}
           </h2>
           <p className="ct-fade mt-8 max-w-[440px] leading-relaxed text-moon/75">{contact.body}</p>
           {brand.email && (
-            <a href={`mailto:${brand.email}`} className="ct-fade link-draw mt-10 inline-block font-display text-2xl italic text-gold-soft">
+            <a href={`mailto:${brand.email}`} className="ct-fade link-draw mt-10 inline-block text-xl text-gold-soft">
               {brand.email}
             </a>
           )}
@@ -113,7 +113,7 @@ export default function Contact() {
                 >
                   <span aria-hidden className="mx-auto mb-8 block h-[9px] w-[9px] rotate-45 bg-gold shadow-[0_0_22px_rgba(201,164,92,0.9)]" />
                   <p className="eyebrow mb-6">{contact.sent.eyebrow}</p>
-                  <p className="display text-4xl text-moon">{contact.sent.title}</p>
+                  <p className="display text-3xl text-moon">{contact.sent.title}</p>
                   <p className="mx-auto mt-6 max-w-[360px] leading-relaxed text-mist">{contact.sent.body}</p>
                   <button type="button" onClick={() => setStatus('idle')} className="link-draw mt-10 text-[0.8rem] uppercase tracking-[0.2em] text-gold-soft">
                     Send another enquiry

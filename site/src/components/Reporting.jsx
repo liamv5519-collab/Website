@@ -55,8 +55,8 @@ export default function Reporting() {
       <div className="relative mx-auto grid max-w-[1440px] gap-16 px-6 md:grid-cols-12 md:px-12">
         <div className="rp-head md:col-span-5">
           <p className="eyebrow mb-8">{reporting.eyebrow}</p>
-          <h2 className="display text-[clamp(3rem,5.6vw,6rem)] text-moon">
-            The view <span className="italic text-gold-soft">from the top.</span>
+          <h2 className="display text-[clamp(2.6rem,4.6vw,5.2rem)] text-moon">
+            The view <span className="accent">from the top.</span>
           </h2>
           <p className="mt-8 max-w-[420px] leading-relaxed text-moon/75">{reporting.body}</p>
         </div>
@@ -69,7 +69,7 @@ export default function Reporting() {
               <span className="font-display text-sm tracking-[0.2em] text-gold transition-[text-shadow] duration-700 group-hover:[text-shadow:0_0_18px_rgba(230,207,151,0.8)]">
                 {String(i + 1).padStart(2, '0')} · {m.key}
               </span>
-              <span className="display text-[1.9rem] text-moon transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2">{m.name}</span>
+              <span className="display text-[1.45rem] text-moon transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2">{m.name}</span>
               <span className="col-span-2 text-[0.95rem] leading-relaxed text-mist md:col-span-1">{m.note}</span>
             </div>
           ))}

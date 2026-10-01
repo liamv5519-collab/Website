@@ -44,9 +44,9 @@ export default function Statement() {
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_75%_30%,rgba(223,227,236,0.07),transparent_55%)]" />
       <div className="relative mx-auto w-full max-w-[1440px] px-6 md:px-12">
         <p className="eyebrow mb-10">Why towers</p>
-        <p className="display relative max-w-[980px] text-[clamp(2.2rem,4.4vw,4.6rem)] leading-[1.08] text-moon">
+        <p className="display relative max-w-[980px] text-[clamp(1.9rem,3.6vw,3.9rem)] leading-[1.12] text-moon">
           {words.map((w, i) => (
-            <span key={i} className={`st-word ${/towers|light|floor\./.test(w) ? 'italic text-gold-soft' : ''}`}>
+            <span key={i} className={`st-word ${/towers|light|window\./.test(w) ? 'accent' : ''}`}>
               {w}{' '}
             </span>
           ))}

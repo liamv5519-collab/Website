@@ -36,7 +36,7 @@ export default function Manifesto() {
       <div className="mx-auto grid max-w-[1440px] items-center gap-16 px-6 md:grid-cols-12 md:px-12">
         <blockquote className="mf-quote md:col-span-7">
           <span aria-hidden className="display block text-[7rem] leading-none text-gold/60">“</span>
-          <p className="display -mt-6 text-[clamp(2.4rem,4.6vw,5rem)] italic leading-[1.06] text-moon">
+          <p className="display -mt-6 text-[clamp(2rem,3.8vw,4.2rem)] leading-[1.08] text-moon">
             <SplitWords text={manifesto.quote} wordClass="mf-word" />
           </p>
           <footer className="mf-by eyebrow mt-10 text-mist">— {manifesto.byline}</footer>

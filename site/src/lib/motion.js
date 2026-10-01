@@ -17,7 +17,3 @@ export function scrollTo(target) {
   if (!el) return
   el.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth' })
 }
-
-export const lockScroll = (on) => {
-  document.documentElement.style.overflow = on ? 'hidden' : ''
-}

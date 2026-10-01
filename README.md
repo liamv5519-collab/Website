@@ -19,18 +19,20 @@ Deploys as a static site (Vercel, Netlify, Cloudflare Pages, S3…): build comma
 ## Stack
 
 React 19 + Vite · Tailwind CSS v4 · GSAP + ScrollTrigger (native scrolling) ·
-Framer Motion (magnetic buttons, form states). Desktop-first at 1440px,
+Framer Motion (service and form transitions) · Archivo
+(self-hosted variable font). Desktop-first at 1440px,
 with dedicated phone layouts for the pinned sections.
 
 ## Sections
 
 1. **Hero** — the master photograph with a canvas layer of white strobe sparkles
-   locked to the tower's outline; pointer parallax; hover the tower for a burst.
+   locked to the tower's outline. Shows immediately; no intro animation.
 2. **Statement** — pinned; words brighten as you scroll while the moon rises.
 3. **The Light Show (showpiece)** — pinned for ~5 screens. A slit of light
    centred on the tower opens to full-bleed footage of the tower sparkling.
-   A floor rail climbs 01 → 05; each floor brings in one service with a white
-   flash and a sweep of strobe lights from base to spire. The frame folds back
+   The five services sit in one list beside it; scrolling lights each in turn
+   (or click one to jump to it) and sends a sweep of strobe lights from base to
+   spire. The frame folds back
    into a card for the outro. Scroll drives only the frame and copy — the video
    is a muted loop that is never seeked or tied to scroll position.
 4. **Approach** — pinned horizontal walk: lobby → boardroom → facade → penthouse.

@@ -17,51 +17,42 @@ export const nav = [
 export const hero = {
   eyebrow: 'Meta advertising — Facebook · Instagram · Messenger · Reels',
   title: ['Be the tallest', 'thing on the feed.'],
-  body: 'Bridge Marketing plans, builds and runs Meta ads for businesses that want to be seen from a distance. We start with the foundations. Then we light every floor.',
+  body: 'Bridge Marketing plans, builds and runs Meta ads for businesses that want to be seen from a distance. We start with the foundations. Then we make you impossible to miss.',
   primary: 'Book a strategy call',
   secondary: 'See the services',
 }
 
 export const statement =
-  'Most ads are built like bungalows. Quick to put up. Easy to forget. We build towers — campaigns with foundations, structure, and a light on every floor.'
+  'Most ads are built like bungalows. Quick to put up. Easy to forget. We build towers — campaigns with foundations, structure, and a light in every window.'
 
 export const lightShow = {
-  eyebrow: 'The services',
-  title: 'Every floor, lit.',
-  intro: 'Five disciplines. One team. Scroll to climb the tower.',
-  outro: 'The whole tower. One team.',
+  eyebrow: 'Services',
+  title: ['Built to', 'be seen.'],
+  intro: 'Five services, one team. Scroll to move through them, or pick one.',
+  outro: ['Everything your ads need.', 'One team.'],
+  cta: 'Book a strategy call',
   services: [
     {
-      floor: '01',
-      level: 'Foundations',
       title: 'Strategy & account audit',
       body: 'We open your ad account and read it like a ledger. Every campaign since the pixel went live. Then we write the plan on one page.',
       detail: 'We check whether your pixel fires twice on the thank-you page. It usually does.',
     },
     {
-      floor: '02',
-      level: 'Structure',
       title: 'Creative production',
       body: 'Statics, carousels and 9:16 video. Built for the thumb, not the boardroom. Written, shot and edited in-house.',
       detail: 'Every video has to make sense on mute. Captions are burned in, never auto-generated.',
     },
     {
-      floor: '03',
-      level: 'Reach',
       title: 'Audiences & targeting',
       body: 'Broad where Meta’s algorithm is smart. Precise where it isn’t. Lookalikes built from buyers, not from page likes.',
       detail: 'Your last 180 days of customers are excluded from prospecting. Most accounts forget.',
     },
     {
-      floor: '04',
-      level: 'Conversion',
       title: 'Funnels & retargeting',
       body: 'Landing pages, instant forms and Messenger flows. The ad is the door. We build the hallway behind it.',
       detail: 'Lead forms carry one qualifying question. It filters out the tyre-kickers before your phone rings.',
     },
     {
-      floor: '05',
-      level: 'Observation deck',
       title: 'Scaling & reporting',
       body: 'Budgets rise only when the numbers earn it. You see exactly what we see, every week, in plain English.',
       detail: 'One page, every Monday. Cost per result is always the first line.',

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ScrollTrigger } from './lib/motion'
 import Approach from './components/Approach'
 import Contact from './components/Contact'
@@ -7,14 +7,11 @@ import Hero from './components/Hero'
 import LightShow from './components/LightShow'
 import Manifesto from './components/Manifesto'
 import Nav from './components/Nav'
-import Preloader from './components/Preloader'
 import Reporting from './components/Reporting'
 import Statement from './components/Statement'
 
 export default function App() {
-  const [ready, setReady] = useState(false)
-  const [loading, setLoading] = useState(true)
-
+  // Re-measure pinned sections once images and fonts have settled.
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh()
     window.addEventListener('load', refresh)
@@ -22,17 +19,11 @@ export default function App() {
     return () => window.removeEventListener('load', refresh)
   }, [])
 
-  const done = useCallback(() => {
-    setReady(true)
-    setTimeout(() => setLoading(false), 900)
-  }, [])
-
   return (
     <>
-      {loading && <Preloader onDone={done} />}
-      <Nav ready={ready} />
+      <Nav />
       <main>
-        <Hero ready={ready} />
+        <Hero />
         <Statement />
         <LightShow />
         <Approach />
