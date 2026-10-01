@@ -58,8 +58,8 @@ export default function Footer() {
           className="ft-mark display select-none whitespace-nowrap text-center text-[19vw] leading-[0.95] tracking-[-0.03em]"
           style={{
             color: 'transparent',
-            WebkitTextStroke: '1px rgba(201,164,92,0.5)',
-            backgroundImage: 'linear-gradient(180deg, rgba(201,164,92,0.28), rgba(5,7,13,0) 80%)',
+            WebkitTextStroke: '1px rgba(240,163,94,0.5)',
+            backgroundImage: 'linear-gradient(180deg, rgba(240,163,94,0.28), rgba(15,11,16,0) 80%)',
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text',
           }}

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { assets, towerShape } from '../assets'
+import { assets, towerShape, towerX } from '../assets'
 import { hero } from '../content'
 import { gsap, SCRUB } from '../lib/motion'
 import useMedia from '../hooks/useMedia'
@@ -9,7 +9,7 @@ import Sparkles from './Sparkles'
 export default function Hero() {
   const root = useRef(null)
   // On narrow screens, crop toward the tower instead of the centre.
-  const focusX = useMedia('(max-width: 767px)') ? 0.64 : 0.5
+  const focusX = useMedia('(max-width: 767px)') ? towerX : 0.5
 
   // Scroll: the view pushes in toward the tower and the copy lifts away.
   useEffect(() => {
@@ -28,17 +28,17 @@ export default function Hero() {
       <div className="hero-zoom absolute inset-0 will-change-transform">
         <img
           src={assets.hero.src}
-          alt="A supertall tower glittering with white lights beside a moonlit harbour"
+          alt="A twisting supertall tower covered in white lights on a beachfront skyline at sunset"
           className="absolute inset-0 h-full w-full object-cover"
           style={{ objectPosition: `${focusX * 100}% 50%` }}
           fetchPriority="high"
           decoding="async"
         />
-        <Sparkles shape={towerShape} aspect={assets.hero.w / assets.hero.h} count={460} objectX={focusX} />
+        <Sparkles shape={towerShape} aspect={assets.hero.w / assets.hero.h} count={900} objectX={focusX} />
       </div>
 
       <div aria-hidden className="hero-shade pointer-events-none absolute inset-0 bg-ink opacity-0" />
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,7,13,0.8)_0%,rgba(5,7,13,0.38)_42%,rgba(5,7,13,0)_62%)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(15,11,16,0.8)_0%,rgba(15,11,16,0.38)_42%,rgba(15,11,16,0)_62%)]" />
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink to-transparent" />
 
       <div className="hero-copy absolute inset-x-0 bottom-[12vh] mx-auto max-w-[1440px] px-6 md:px-12">
@@ -59,9 +59,9 @@ export default function Hero() {
       </div>
 
       <p className="absolute bottom-8 right-6 hidden text-right text-[0.7rem] leading-relaxed tracking-[0.08em] text-mist md:right-12 md:block">
-        Fig. 01 — The tower, harbour side
+        Fig. 01 — The tower, beachfront
         <br />
-        01:40, full moon
+        19:12, golden hour
       </p>
     </section>
   )

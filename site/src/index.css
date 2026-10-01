@@ -1,17 +1,17 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-ink: #05070d;
-  --color-night: #0a0f1c;
-  --color-navy: #111a30;
-  --color-line: rgba(217, 221, 230, 0.12);
-  --color-moon: #dfe3ec;
-  --color-mist: #8b93a7;
-  --color-gold: #c9a45c;
-  --color-gold-soft: #e6cf97;
+  --color-ink: #0f0b10;
+  --color-night: #1a1218;
+  --color-navy: #2a1b24;
+  --color-line: rgba(246, 236, 226, 0.12);
+  --color-moon: #f6ece2;
+  --color-mist: #b3a39c;
+  --color-gold: #f0a35e;
+  --color-gold-soft: #ffc98f;
 
-  --font-display: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
-  --font-sans: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: 'Geist Variable', 'Helvetica Neue', Arial, sans-serif;
 
   --ease-lux: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -52,18 +52,18 @@ body {
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 500;
-  font-stretch: 112%;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--color-gold);
 }
 
-/* Headlines: Archivo widened for an architectural, high-end feel. */
+/* Headlines: Bricolage Grotesque, optical sizing on — tight and characterful
+   at display sizes. Body copy is Geist. */
 .display {
   font-family: var(--font-display);
-  font-weight: 400;
-  font-stretch: 115%;
-  letter-spacing: -0.035em;
+  font-weight: 500;
+  font-optical-sizing: auto;
+  letter-spacing: -0.03em;
   line-height: 1;
   text-wrap: balance;
 }

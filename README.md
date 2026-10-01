@@ -1,8 +1,10 @@
 # Bridge Marketing — website
 
 An animated marketing site for **Bridge Marketing**, a Meta advertising agency
-(Facebook, Instagram, Messenger, Reels). The theme is a luxury supertall tower on
-a moonlit harbour, its facade sparkling with white strobe lights.
+(Facebook, Instagram, Messenger, Reels). The theme is a twisting supertall glass tower
+on a beachfront skyline at sunset — palms, sand, gulls, mountains behind, a few
+LED-screen towers — its facade covered in Burj Khalifa–style flashing white
+lights.
 
 The site lives in [`site/`](site/).
 
@@ -36,15 +38,17 @@ pencil icon, change the words between the quotes, then **Commit changes**.
 ## Stack
 
 React 19 + Vite · Tailwind CSS v4 · GSAP + ScrollTrigger (native scrolling) ·
-Framer Motion (service and form transitions) · Archivo
-(self-hosted variable font). Desktop-first at 1440px,
+Framer Motion (service and form transitions) · Bricolage Grotesque (headlines)
+and Geist (body), both self-hosted variable fonts. Desktop-first at 1440px,
 with dedicated phone layouts for the pinned sections.
 
 ## Sections
 
-1. **Hero** — the master photograph with a canvas layer of white strobe sparkles
-   locked to the tower's outline. Shows immediately; no intro animation.
-2. **Statement** — pinned; words brighten as you scroll while the moon rises.
+1. **Hero** — the master photograph with a canvas layer of ~900 white lights
+   locked to the tower's outline: steady embers, constant strobe flashes, and a
+   wave of light running up the tower every few seconds. Shows immediately; no
+   intro animation.
+2. **Statement** — pinned; words brighten as you scroll while the moon rises over the sunset.
 3. **The Light Show (showpiece)** — pinned for ~5 screens. A slit of light
    centred on the tower opens to full-bleed footage of the tower sparkling.
    The five services sit in one list beside it; scrolling lights each in turn
@@ -95,7 +99,7 @@ and hosted on Higgsfield's CDN (URLs in [`site/src/assets.js`](site/src/assets.j
 | Spire, aerial, marina, facade | Image-to-image from the master (same tower, grade) |
 | Lobby, boardroom, penthouse lounge | Image-to-image, graded to the master |
 | Moon, yacht | Generated on plain backgrounds, background removed |
-| Light show video | Kling 3.0 from the master frame, crossfaded into a seamless 4s loop, 1080p, no audio |
+| Light show video | Kling 3.0 from the master frame, 5s, 1080p, played as a muted loop |
 
 To self-host instead of using the CDN, download the URLs in `assets.js` into
 `site/public/media/` and point the manifest at `/media/...`.

@@ -34,7 +34,7 @@ export default function Nav() {
       <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-6 md:px-12">
         <a href="#top" onClick={(e) => go(e, '#top')} className="flex items-baseline gap-3">
           <svg width="14" height="26" viewBox="0 0 14 26" aria-hidden className="translate-y-[3px]">
-            <path d="M7 0 L8.6 11 L10.4 19 L12 26 H2 L3.6 19 L5.4 11 Z" fill="none" stroke="#c9a45c" strokeWidth="1.1" />
+            <path d="M7 0 L8.6 11 L10.4 19 L12 26 H2 L3.6 19 L5.4 11 Z" fill="none" stroke="#f0a35e" strokeWidth="1.1" />
           </svg>
           <span className="display text-[1.7rem] text-moon">Bridge</span>
           <span className="eyebrow hidden text-[0.6rem] text-mist sm:inline">Marketing</span>

@@ -44,11 +44,13 @@ function makeSprite(size) {
 }
 
 /**
- * Burj-style white strobe sparkle, confined to the tower outline.
+ * Burj-style white strobe lights covering the tower outline: a field of
+ * steady embers, hundreds of rapid flashes, and a wave of light that runs up
+ * the tower every `autoSweep` ms (0 turns it off).
  * Sits over an <img>/<video> with object-fit: cover and reproduces its crop.
  */
 const Sparkles = forwardRef(function Sparkles(
-  { shape, aspect, count = 420, intensity = 1, objectX = 0.5, className = '' },
+  { shape, aspect, count = 900, intensity = 1, objectX = 0.5, autoSweep = 3600, className = '' },
   ref,
 ) {
   const canvasRef = useRef(null)
@@ -86,11 +88,11 @@ const Sparkles = forwardRef(function Sparkles(
       pts.push({
         x: p[0],
         y: p[1],
-        next: performance.now() + Math.random() * 2600,
+        next: performance.now() + Math.random() * 1800,
         flashAt: -1e9,
-        dur: 90 + Math.random() * 180,
-        size: 0.55 + Math.random() * 0.9,
-        ember: Math.random() < 0.18 ? 0.08 + Math.random() * 0.14 : 0,
+        dur: 70 + Math.random() * 160,
+        size: 0.5 + Math.random() * 0.95,
+        ember: Math.random() < 0.38 ? 0.1 + Math.random() * 0.22 : 0,
         waveHit: -1,
       })
     }
@@ -122,6 +124,7 @@ const Sparkles = forwardRef(function Sparkles(
     io.observe(canvas)
 
     let raf = 0
+    let lastSweep = performance.now() - autoSweep * 0.6
     const draw = (now) => {
       raf = requestAnimationFrame(draw)
       if (!state.current.visible) return
@@ -131,7 +134,11 @@ const Sparkles = forwardRef(function Sparkles(
       if (k <= 0.001) return
       ctx.globalCompositeOperation = 'lighter'
 
+      if (!reduce && autoSweep > 0 && !state.current.wave && now - lastSweep > autoSweep) {
+        state.current.wave = { start: now, duration: 1500 }
+      }
       const wave = state.current.wave
+      if (wave) lastSweep = wave.start
       let front = null
       if (wave) {
         const t = (now - wave.start) / wave.duration
@@ -144,9 +151,9 @@ const Sparkles = forwardRef(function Sparkles(
       for (const p of pts) {
         if (!reduce && now >= p.next) {
           p.flashAt = now
-          p.next = now + 700 + Math.random() * 3200
+          p.next = now + 250 + Math.random() * 1500
         }
-        if (front !== null && p.waveHit !== wave.start && Math.abs(p.y - front) < 0.012) {
+        if (front !== null && p.waveHit !== wave.start && Math.abs(p.y - front) < 0.016) {
           p.flashAt = now
           p.waveHit = wave.start
         }
@@ -173,7 +180,7 @@ const Sparkles = forwardRef(function Sparkles(
       ro.disconnect()
       io.disconnect()
     }
-  }, [shape, aspect, count, objectX])
+  }, [shape, aspect, count, objectX, autoSweep])
 
   return <canvas ref={canvasRef} aria-hidden className={`pointer-events-none absolute inset-0 h-full w-full ${className}`} />
 })

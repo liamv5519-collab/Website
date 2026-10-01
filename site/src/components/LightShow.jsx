@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { assets, towerShape } from '../assets'
+import { assets, towerShape, towerX } from '../assets'
 import { lightShow } from '../content'
 import { gsap, SCRUB } from '../lib/motion'
 import useMedia from '../hooks/useMedia'
@@ -13,7 +13,6 @@ const STEP = 1 // units per service
 const FIRST = OPEN + 0.15
 const OUTRO_AT = FIRST + services.length * STEP
 const TOTAL = OUTRO_AT + 1.2
-const TOWER_X = 0.615 // spire position in the footage, normalised
 
 /**
  * THE LIGHT SHOW — pinned showpiece.
@@ -57,7 +56,7 @@ function Stage() {
         const H = window.innerHeight
         const s = Math.max(W / (16 / 9), H)
         const iw = (16 / 9) * s
-        const x = (W - iw) / 2 + TOWER_X * iw
+        const x = (W - iw) / 2 + towerX * iw
         const xs = W / 2 + (x - W / 2) * 1.16
         const w = Math.max(110, W * 0.1)
         return { l: xs - w / 2, r: W - (xs + w / 2), t: H * 0.09, b: H * 0.09, rad: w / 2 }
@@ -145,12 +144,12 @@ function Stage() {
             autoPlay
             playsInline
             preload="auto"
-            aria-label="The tower's white lights sparkling at night"
+            aria-label="The tower's white lights flashing at sunset"
           />
-          <Sparkles ref={sparkles} shape={towerShape} aspect={assets.lightShow.aspect} count={560} />
+          <Sparkles ref={sparkles} shape={towerShape} aspect={assets.lightShow.aspect} count={800} />
         </div>
-        <div className="ls-shade pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,7,13,0.94)_0%,rgba(5,7,13,0.7)_38%,rgba(5,7,13,0.05)_60%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(5,7,13,0.55))]" />
+        <div className="ls-shade pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(15,11,16,0.94)_0%,rgba(15,11,16,0.7)_38%,rgba(15,11,16,0.05)_60%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(15,11,16,0.55))]" />
       </div>
 
       {/* Intro — beside the slit before the frame opens */}
@@ -245,7 +244,7 @@ function Stacked() {
       <div className="relative mt-10 aspect-[4/5] overflow-hidden rounded-3xl">
         <video
           className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: '62% 50%' }}
+          style={{ objectPosition: `${towerX * 100}% 50%` }}
           src={assets.lightShow.src}
           poster={assets.lightShow.poster}
           muted
@@ -253,7 +252,7 @@ function Stacked() {
           autoPlay
           playsInline
         />
-        <Sparkles shape={towerShape} aspect={assets.lightShow.aspect} count={300} objectX={0.62} />
+        <Sparkles shape={towerShape} aspect={assets.lightShow.aspect} count={600} objectX={towerX} />
       </div>
       <div className="mt-14 space-y-12">
         {services.map((item) => (

@@ -70,8 +70,8 @@ export default function Contact() {
     <section id="contact" ref={root} className="relative overflow-hidden bg-ink">
       <div className="absolute inset-0">
         <img src={assets.marina.src} alt="" aria-hidden loading="lazy" className="ct-bg absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,#05070d_0%,rgba(5,7,13,0.35)_28%,rgba(5,7,13,0.55)_65%,#05070d_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,7,13,0.85)_0%,rgba(5,7,13,0.2)_60%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#0f0b10_0%,rgba(15,11,16,0.35)_28%,rgba(15,11,16,0.55)_65%,#0f0b10_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,11,16,0.85)_0%,rgba(15,11,16,0.2)_60%)]" />
       </div>
       <img
         src={assets.yacht.src}
@@ -111,7 +111,7 @@ export default function Contact() {
                   transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                   className="py-16 text-center"
                 >
-                  <span aria-hidden className="mx-auto mb-8 block h-[9px] w-[9px] rotate-45 bg-gold shadow-[0_0_22px_rgba(201,164,92,0.9)]" />
+                  <span aria-hidden className="mx-auto mb-8 block h-[9px] w-[9px] rotate-45 bg-gold shadow-[0_0_22px_rgba(240,163,94,0.9)]" />
                   <p className="eyebrow mb-6">{contact.sent.eyebrow}</p>
                   <p className="display text-3xl text-moon">{contact.sent.title}</p>
                   <p className="mx-auto mt-6 max-w-[360px] leading-relaxed text-mist">{contact.sent.body}</p>
