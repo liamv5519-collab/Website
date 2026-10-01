@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { ScrollTrigger, startSmoothScroll } from './lib/motion'
 import Approach from './components/Approach'
 import Contact from './components/Contact'
-import Cursor from './components/Cursor'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
 import LightShow from './components/LightShow'
@@ -32,7 +31,6 @@ export default function App() {
   return (
     <>
       {loading && <Preloader onDone={done} />}
-      <Cursor />
       <Nav ready={ready} />
       <main>
         <Hero ready={ready} />

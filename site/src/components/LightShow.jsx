@@ -135,8 +135,6 @@ function Stage() {
       {/* Frame (clip-path driven by scroll) */}
       <div
         className="ls-frame absolute inset-0 will-change-[clip-path]"
-        data-cursor="view"
-        data-cursor-label="Sparkle"
         onPointerDown={() => sparkles.current?.burst(900)}
       >
         <div className="ls-scale absolute inset-0 will-change-transform">

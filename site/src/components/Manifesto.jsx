@@ -42,7 +42,7 @@ export default function Manifesto() {
           <footer className="mf-by eyebrow mt-10 text-mist">— {manifesto.byline}</footer>
         </blockquote>
         <div className="md:col-span-4 md:col-start-9">
-          <div className="mf-frame relative mx-auto aspect-[2/3] w-full max-w-[420px] overflow-hidden" data-cursor="view" data-cursor-label="Spire">
+          <div className="mf-frame relative mx-auto aspect-[2/3] w-full max-w-[420px] overflow-hidden">
             <img src={assets.spire.src} alt="The spire under a full moon" loading="lazy" className="mf-img absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0 ring-1 ring-inset ring-gold/30 [border-radius:999px_999px_0_0]" />
           </div>

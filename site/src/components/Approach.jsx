@@ -77,8 +77,6 @@ export default function Approach() {
           return (
             <article key={s.room} className="ap-card flex shrink-0 flex-col gap-8 min-[900px]:flex-row min-[900px]:items-end">
               <div
-                data-cursor="view"
-                data-cursor-label={s.room.replace('The ', '')}
                 className={`relative overflow-hidden rounded-[22px] ${
                   tall ? 'aspect-[4/5] min-[900px]:h-[70vh]' : 'aspect-[16/10] min-[900px]:h-[62vh]'
                 }`}

@@ -51,14 +51,6 @@ html.lenis body {
   overflow: hidden;
 }
 
-/* Custom cursor: hide the system cursor only on fine pointers. */
-@media (pointer: fine) {
-  html.has-cursor,
-  html.has-cursor * {
-    cursor: none !important;
-  }
-}
-
 /* Film grain over everything — keeps the generated stills photographic. */
 .grain {
   pointer-events: none;
