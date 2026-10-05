@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react'
-import { assets, towerShape, towerX } from '../assets'
+import { assets, towerShape, towerX, waterLine } from '../assets'
 import { hero } from '../content'
 import { gsap, SCRUB } from '../lib/motion'
 import useMedia from '../hooks/useMedia'
 import Button from './Button'
+import Gulls from './Gulls'
+import LoopVideo from './LoopVideo'
 import Sparkles from './Sparkles'
 
 export default function Hero() {
@@ -34,12 +36,20 @@ export default function Hero() {
           fetchPriority="high"
           decoding="async"
         />
-        <Sparkles shape={towerShape} aspect={assets.hero.w / assets.hero.h} count={1300} objectX={focusX} beams />
+        {/* The same frame, alive: surf, palms, gulls. Fades in over the still. */}
+        <LoopVideo src={assets.lightShow.src} position={`${focusX * 100}% 50%`} />
+        <div aria-hidden className="fog pointer-events-none absolute inset-x-0 top-[40%] h-[20%]" />
+        <Gulls aspect={assets.hero.w / assets.hero.h} objectX={focusX} />
       </div>
 
       <div aria-hidden className="hero-shade pointer-events-none absolute inset-0 bg-ink opacity-0" />
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(15,11,16,0.8)_0%,rgba(15,11,16,0.38)_42%,rgba(15,11,16,0)_62%)]" />
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[16%] bg-gradient-to-t from-ink to-transparent" />
+
+      {/* Lights sit above the shading so the whole tower, base included, burns bright. */}
+      <div aria-hidden className="hero-zoom pointer-events-none absolute inset-0 will-change-transform">
+        <Sparkles shape={towerShape} aspect={assets.hero.w / assets.hero.h} count={1300} objectX={focusX} beams water={waterLine} />
+      </div>
 
       <div className="hero-copy absolute inset-x-0 bottom-[12vh] mx-auto max-w-[1440px] px-6 md:px-12">
         <div className="max-w-[780px]">

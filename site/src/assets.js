@@ -19,12 +19,13 @@ export const assets = {
   // Cutouts (background removed, transparent WebP).
   moon: { src: `${CDN}/31453929-67ec-4735-9662-7fcdbfdfc978.webp`, w: 890, h: 900 },
   yacht: { src: `${CDN}/d3600bc0-695c-497f-b101-00bafa4a414b.webp`, w: 1600, h: 575 },
-  // The light show: Kling 3.0 from the master frame — tower lights twinkling,
-  // screens shifting, gulls, palms and waves moving. Muted loop.
+  // Kling 3.0 from the master frame, locked-off camera — surf and water,
+  // palms, gulls and screens moving. Plays behind the hero and the light show
+  // as a crossfaded muted loop.
   lightShow: {
     src: `${RAW}/hf_20261001_134035_5dfab679-e86e-48eb-b9dd-93afa49fb0e4.mp4`,
     poster: `${CDN}/b958db6b-d8e7-4868-8166-9ac90227035f.webp`,
-    aspect: 16 / 9,
+    aspect: 1912 / 1080,
   },
 }
 
@@ -55,3 +56,7 @@ export const towerShape = [
 
 // Horizontal position of the tower's spire, used to centre the light-show slit.
 export const towerX = 0.667
+
+// Where the beach water starts below the tower (normalised image y); the
+// tower's lights are mirrored in the water beneath it.
+export const waterLine = 0.715

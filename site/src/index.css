@@ -107,3 +107,34 @@ body {
   will-change: transform;
 }
 
+
+/* A faint band of haze drifting along the horizon, in front of the mountains:
+   one fractal-noise strip twice the frame's width, easing slowly back and
+   forth so there is never a seam. */
+.fog {
+  overflow: hidden;
+  opacity: 0.3;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 35%, #000 60%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 35%, #000 60%, transparent);
+}
+.fog::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='300' preserveAspectRatio='none'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0028 0.014' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.93 0 0 0 0 0.88 1.5 0 0 0 -0.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  animation: fog-drift 90s ease-in-out infinite alternate;
+}
+@keyframes fog-drift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fog::before {
+    animation: none;
+  }
+}

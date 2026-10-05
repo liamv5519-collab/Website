@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { assets, towerShape, towerX } from '../assets'
+import { assets, towerShape, towerX, waterLine } from '../assets'
 import { lightShow } from '../content'
 import { gsap, SCRUB } from '../lib/motion'
 import useMedia from '../hooks/useMedia'
 import Button from './Button'
+import LoopVideo from './LoopVideo'
 import Sparkles from './Sparkles'
 
 const { services } = lightShow
@@ -27,21 +28,9 @@ const TOTAL = OUTRO_AT + 1.2
  */
 function Stage() {
   const root = useRef(null)
-  const video = useRef(null)
-  const sparkles = useRef(null)
   const trigger = useRef(null)
   const [current, setCurrent] = useState(0)
   const currentRef = useRef(0)
-
-  // Play the loop only while the section is on screen (never seek it).
-  useEffect(() => {
-    const v = video.current
-    const io = new IntersectionObserver(([e]) => (e.isIntersecting ? v.play().catch(() => {}) : v.pause()), {
-      threshold: 0.01,
-    })
-    io.observe(v)
-    return () => io.disconnect()
-  }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -92,7 +81,6 @@ function Stage() {
             if (idx !== currentRef.current) {
               currentRef.current = idx
               setCurrent(idx)
-              sparkles.current?.burst(1000)
             }
           },
         },
@@ -132,21 +120,10 @@ function Stage() {
   return (
     <section id="services" ref={root} className="relative h-[100svh] w-full overflow-hidden bg-ink">
       {/* Frame (clip-path driven by scroll) */}
-      <div className="ls-frame absolute inset-0 will-change-[clip-path]" onPointerDown={() => sparkles.current?.burst(900)}>
+      <div className="ls-frame absolute inset-0 will-change-[clip-path]">
         <div className="ls-scale absolute inset-0 will-change-transform">
-          <video
-            ref={video}
-            className="absolute inset-0 h-full w-full object-cover"
-            src={assets.lightShow.src}
-            poster={assets.lightShow.poster}
-            muted
-            loop
-            autoPlay
-            playsInline
-            preload="auto"
-            aria-label="The tower's white lights flashing at sunset"
-          />
-          <Sparkles ref={sparkles} shape={towerShape} aspect={assets.lightShow.aspect} count={1150} beams />
+          <LoopVideo src={assets.lightShow.src} poster={assets.lightShow.poster} label="The tower's white lights flashing at sunset" />
+          <Sparkles shape={towerShape} aspect={assets.lightShow.aspect} count={1150} beams water={waterLine} />
         </div>
         <div className="ls-shade pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(15,11,16,0.94)_0%,rgba(15,11,16,0.7)_38%,rgba(15,11,16,0.05)_60%)]" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(15,11,16,0.55))]" />
@@ -242,17 +219,8 @@ function Stacked() {
         {lightShow.title[0]} <span className="accent">{lightShow.title[1]}</span>
       </h2>
       <div className="relative mt-10 aspect-[4/5] overflow-hidden rounded-3xl">
-        <video
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: `${towerX * 100}% 50%` }}
-          src={assets.lightShow.src}
-          poster={assets.lightShow.poster}
-          muted
-          loop
-          autoPlay
-          playsInline
-        />
-        <Sparkles shape={towerShape} aspect={assets.lightShow.aspect} count={850} objectX={towerX} beams />
+        <LoopVideo src={assets.lightShow.src} poster={assets.lightShow.poster} position={`${towerX * 100}% 50%`} />
+        <Sparkles shape={towerShape} aspect={assets.lightShow.aspect} count={850} objectX={towerX} beams water={waterLine} />
       </div>
       <div className="mt-14 space-y-12">
         {services.map((item) => (

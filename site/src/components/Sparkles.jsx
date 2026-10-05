@@ -27,7 +27,8 @@ function edgesAt(y, poly) {
 function makeBeams(shape, minY, maxY) {
   const h = maxY - minY
   const beams = []
-  for (const f of [0.14, 0.32, 0.5, 0.7]) {
+  // Evenly spaced from just under the spire down to the base.
+  for (const f of [0.08, 0.22, 0.36, 0.5, 0.64, 0.78, 0.92]) {
     const y = minY + f * h
     const e = edgesAt(y, shape)
     if (!e) continue
@@ -49,6 +50,9 @@ function makeBeams(shape, minY, maxY) {
   }
   return beams
 }
+
+// How far below the waterline the reflections reach (normalised image height).
+const REFLECT = 0.17
 
 // A pre-rendered glint: hot white core, soft halo, faint four-point flare.
 function makeSprite(size) {
@@ -84,27 +88,23 @@ function makeSprite(size) {
 
 /**
  * Burj-style white strobe lights covering the tower outline: a field of
- * steady embers, hundreds of rapid flashes, and a wave of light that runs up
- * the tower every `autoSweep` ms (0 turns it off). With `beams`, moving
- * searchlights swing out from the tower's edges and spire.
+ * steady embers and hundreds of rapid flashes. With `beams`, moving
+ * searchlights swing out from the tower's edges and spire. With `water` (the
+ * waterline, normalised image y), the lights shimmer in the water below.
  * Sits over an <img>/<video> with object-fit: cover and reproduces its crop.
  */
 const Sparkles = forwardRef(function Sparkles(
-  { shape, aspect, count = 1400, intensity = 1, objectX = 0.5, autoSweep = 3600, beams = false, className = '' },
+  { shape, aspect, count = 1400, intensity = 1, objectX = 0.5, beams = false, water = null, className = '' },
   ref,
 ) {
   const canvasRef = useRef(null)
-  const state = useRef({ intensity, wave: null, visible: true })
+  const state = useRef({ intensity, visible: true })
 
   useEffect(() => {
     state.current.intensity = intensity
   }, [intensity])
 
   useImperativeHandle(ref, () => ({
-    // Sweep of flashes from the base of the tower to the spire.
-    burst(duration = 900) {
-      state.current.wave = { start: performance.now(), duration }
-    },
     setIntensity(v) {
       state.current.intensity = v
     },
@@ -136,7 +136,6 @@ const Sparkles = forwardRef(function Sparkles(
         ember: 0.08 + Math.random() * 0.2,
         phase: Math.random() * Math.PI * 2,
         rate: 0.004 + Math.random() * 0.01,
-        waveHit: -1,
       })
     }
 
@@ -169,7 +168,6 @@ const Sparkles = forwardRef(function Sparkles(
     io.observe(canvas)
 
     let raf = 0
-    let lastSweep = performance.now() - autoSweep * 0.6
     const draw = (now) => {
       raf = requestAnimationFrame(draw)
       if (!state.current.visible) return
@@ -179,22 +177,10 @@ const Sparkles = forwardRef(function Sparkles(
       if (k <= 0.001) return
       ctx.globalCompositeOperation = 'lighter'
 
-      if (!reduce && autoSweep > 0 && !state.current.wave && now - lastSweep > autoSweep) {
-        state.current.wave = { start: now, duration: 1800 }
-      }
-      const wave = state.current.wave
-      if (wave) lastSweep = wave.start
-      let front = null
-      if (wave) {
-        const t = (now - wave.start) / wave.duration
-        if (t > 1.15) state.current.wave = null
-        else front = maxY - t * (maxY - minY) // base → spire
-      }
       // Tower-relative scale: lights shrink as the viewport shrinks.
       const unit = Math.max(0.7, map.s / 900)
 
       // Searchlight beams first, so the strobes sit on top of them.
-      const boost = front !== null ? 1.5 : 1
       const len = map.s * 1.3
       for (const b of lights) {
         const x = map.ox + b.x * map.iw * map.s
@@ -208,8 +194,8 @@ const Sparkles = forwardRef(function Sparkles(
         const cone = (spread, a0, a1) => {
           const w = Math.tan(spread) * len
           const g = ctx.createLinearGradient(x, y, x + dx * len, y + dy * len)
-          g.addColorStop(0, `rgba(255,244,228,${a0 * k * boost})`)
-          g.addColorStop(0.4, `rgba(255,236,214,${a1 * k * boost})`)
+          g.addColorStop(0, `rgba(255,244,228,${a0 * k})`)
+          g.addColorStop(0.4, `rgba(255,236,214,${a1 * k})`)
           g.addColorStop(1, 'rgba(255,230,205,0)')
           ctx.fillStyle = g
           ctx.beginPath()
@@ -219,9 +205,9 @@ const Sparkles = forwardRef(function Sparkles(
           ctx.lineTo(x - px * 1.5 * unit, y - py * 1.5 * unit)
           ctx.fill()
         }
-        cone(b.spread * 2.4, 0.1, 0.035)
-        cone(b.spread * 1.3, 0.12, 0.04)
-        cone(b.spread * 0.55, 0.2, 0.06)
+        cone(b.spread * 2.4, 0.075, 0.026)
+        cone(b.spread * 1.3, 0.09, 0.03)
+        cone(b.spread * 0.55, 0.16, 0.05)
         // the lamp itself
         const sz = 22 * unit
         ctx.globalAlpha = Math.min(1, 0.9 * k)
@@ -233,10 +219,6 @@ const Sparkles = forwardRef(function Sparkles(
         if (!reduce && now >= p.next) {
           p.flashAt = now
           p.next = now + 200 + Math.random() * 1100
-        }
-        if (front !== null && p.waveHit !== wave.start && Math.abs(p.y - front) < 0.016) {
-          p.flashAt = now
-          p.waveHit = wave.start
         }
         const age = now - p.flashAt
         let a = p.ember * (0.55 + 0.45 * Math.sin(now * p.rate + p.phase))
@@ -251,6 +233,15 @@ const Sparkles = forwardRef(function Sparkles(
         const sz = 10 * p.size * unit * (0.6 + a * 0.8)
         ctx.globalAlpha = Math.min(1, a * k)
         ctx.drawImage(sprite, x - sz / 2, y - sz / 2, sz, sz)
+        // Mirror the lower lights in the water: dimmer, smeared sideways and
+        // wobbling with the ripples, fading with depth.
+        if (water !== null && p.y > water - REFLECT) {
+          const ry = 2 * water - p.y
+          const fall = 1 - (ry - water) / REFLECT
+          const wob = reduce ? 0 : Math.sin(now * 0.0025 + p.y * 900) * 2.2 * unit
+          ctx.globalAlpha = Math.min(1, a * k * 0.4 * fall)
+          ctx.drawImage(sprite, x + wob - sz * 0.8, map.oy + ry * map.s - sz * 0.25, sz * 1.6, sz * 0.5)
+        }
       }
       ctx.globalAlpha = 1
     }
@@ -261,7 +252,7 @@ const Sparkles = forwardRef(function Sparkles(
       ro.disconnect()
       io.disconnect()
     }
-  }, [shape, aspect, count, objectX, autoSweep, beams])
+  }, [shape, aspect, count, objectX, beams, water])
 
   return <canvas ref={canvasRef} aria-hidden className={`pointer-events-none absolute inset-0 h-full w-full ${className}`} />
 })
