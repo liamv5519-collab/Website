@@ -146,7 +146,7 @@ function Stage() {
             preload="auto"
             aria-label="The tower's white lights flashing at sunset"
           />
-          <Sparkles ref={sparkles} shape={towerShape} aspect={assets.lightShow.aspect} count={800} />
+          <Sparkles ref={sparkles} shape={towerShape} aspect={assets.lightShow.aspect} count={1150} />
         </div>
         <div className="ls-shade pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(15,11,16,0.94)_0%,rgba(15,11,16,0.7)_38%,rgba(15,11,16,0.05)_60%)]" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(15,11,16,0.55))]" />
@@ -252,7 +252,7 @@ function Stacked() {
           autoPlay
           playsInline
         />
-        <Sparkles shape={towerShape} aspect={assets.lightShow.aspect} count={600} objectX={towerX} />
+        <Sparkles shape={towerShape} aspect={assets.lightShow.aspect} count={850} objectX={towerX} />
       </div>
       <div className="mt-14 space-y-12">
         {services.map((item) => (

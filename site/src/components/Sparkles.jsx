@@ -50,7 +50,7 @@ function makeSprite(size) {
  * Sits over an <img>/<video> with object-fit: cover and reproduces its crop.
  */
 const Sparkles = forwardRef(function Sparkles(
-  { shape, aspect, count = 900, intensity = 1, objectX = 0.5, autoSweep = 3600, className = '' },
+  { shape, aspect, count = 1400, intensity = 1, objectX = 0.5, autoSweep = 3600, className = '' },
   ref,
 ) {
   const canvasRef = useRef(null)
@@ -92,7 +92,10 @@ const Sparkles = forwardRef(function Sparkles(
         flashAt: -1e9,
         dur: 70 + Math.random() * 160,
         size: 0.5 + Math.random() * 0.95,
-        ember: Math.random() < 0.38 ? 0.1 + Math.random() * 0.22 : 0,
+        // every light glows faintly between flashes and shimmers on its own beat
+        ember: 0.08 + Math.random() * 0.2,
+        phase: Math.random() * Math.PI * 2,
+        rate: 0.004 + Math.random() * 0.01,
         waveHit: -1,
       })
     }
@@ -135,7 +138,7 @@ const Sparkles = forwardRef(function Sparkles(
       ctx.globalCompositeOperation = 'lighter'
 
       if (!reduce && autoSweep > 0 && !state.current.wave && now - lastSweep > autoSweep) {
-        state.current.wave = { start: now, duration: 1500 }
+        state.current.wave = { start: now, duration: 1800 }
       }
       const wave = state.current.wave
       if (wave) lastSweep = wave.start
@@ -151,14 +154,14 @@ const Sparkles = forwardRef(function Sparkles(
       for (const p of pts) {
         if (!reduce && now >= p.next) {
           p.flashAt = now
-          p.next = now + 250 + Math.random() * 1500
+          p.next = now + 200 + Math.random() * 1100
         }
         if (front !== null && p.waveHit !== wave.start && Math.abs(p.y - front) < 0.016) {
           p.flashAt = now
           p.waveHit = wave.start
         }
         const age = now - p.flashAt
-        let a = p.ember
+        let a = p.ember * (0.55 + 0.45 * Math.sin(now * p.rate + p.phase))
         if (age >= 0 && age < p.dur * 3) {
           // sharp attack, exponential tail — reads as a strobe, not a fade
           a = Math.max(a, age < 30 ? age / 30 : Math.exp(-(age - 30) / p.dur))

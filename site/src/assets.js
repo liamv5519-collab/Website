@@ -29,16 +29,24 @@ export const assets = {
 }
 
 // Where the main tower sits inside the master frame, in normalised image
-// coordinates (measured from the 4K master): tip at the top, widening slightly
-// to where it meets the rest of the skyline. Used to place the flashing lights.
+// coordinates (measured from the 4K master): tip at the top, down the twisting
+// shaft to its base on the beachfront. Used to place the flashing lights.
 export const towerShape = [
   [0.666, 0.075],
   [0.672, 0.15],
   [0.677, 0.25],
   [0.682, 0.35],
   [0.684, 0.45],
-  [0.685, 0.52],
-  [0.649, 0.52],
+  [0.684, 0.52],
+  [0.681, 0.58],
+  [0.683, 0.63],
+  [0.681, 0.68],
+  [0.677, 0.71],
+  [0.649, 0.71],
+  [0.65, 0.68],
+  [0.651, 0.63],
+  [0.65, 0.58],
+  [0.651, 0.52],
   [0.65, 0.45],
   [0.651, 0.35],
   [0.654, 0.25],
