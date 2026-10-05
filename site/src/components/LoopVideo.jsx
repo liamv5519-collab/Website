@@ -1,11 +1,13 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  * A muted background clip that loops without a visible jump: shortly before
  * each pass ends, a second copy starts from the top and fades in over it.
  * Plays only while on screen. Reduced-motion users get the still `poster`.
+ * `srcSmall`, when given, is used on narrow screens to save data.
  */
-export default function LoopVideo({ src, poster, position = '50% 50%', fade = 1.2, label, className = '' }) {
+export default function LoopVideo({ src: full, srcSmall, poster, position = '50% 50%', fade = 1.2, label, className = '' }) {
+  const [src] = useState(() => (srcSmall && window.innerWidth < 1000 ? srcSmall : full))
   const root = useRef(null)
   const a = useRef(null)
   const b = useRef(null)

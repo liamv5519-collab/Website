@@ -101,7 +101,7 @@ and hosted on Higgsfield's CDN (URLs in [`site/src/assets.js`](site/src/assets.j
 | Spire, aerial, marina, facade | Image-to-image from the master (same tower, grade) |
 | Lobby, boardroom, penthouse lounge | Image-to-image, graded to the master |
 | Moon, yacht | Generated on plain backgrounds, background removed |
-| Scene video (hero + light show) | Kling 3.0 from the master frame, locked-off camera, 5s, 1080p; looped in the browser by crossfading two copies |
+| Scene video (hero + light show) | Kling 3.0 (4K) from the master frame, locked-off camera, 10s, no audio — palms, gulls, surf; looped in the browser by crossfading two copies |
 
 To self-host instead of using the CDN, download the URLs in `assets.js` into
 `site/public/media/` and point the manifest at `/media/...`.
