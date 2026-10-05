@@ -11,6 +11,45 @@ function inside([x, y], poly) {
   return hit
 }
 
+// Left and right edge of the outline at height y (normalised image space).
+function edgesAt(y, poly) {
+  const hits = []
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const [xi, yi] = poly[i]
+    const [xj, yj] = poly[j]
+    if (yi > y !== yj > y) hits.push(xi + ((y - yi) * (xj - xi)) / (yj - yi))
+  }
+  return hits.length ? [Math.min(...hits), Math.max(...hits)] : null
+}
+
+// Searchlights mounted on the tower's edges and spire. Angles are radians from
+// straight up (negative = left); each beam swings around its aim.
+function makeBeams(shape, minY, maxY) {
+  const h = maxY - minY
+  const beams = []
+  for (const f of [0.14, 0.32, 0.5, 0.7]) {
+    const y = minY + f * h
+    const e = edgesAt(y, shape)
+    if (!e) continue
+    for (const side of [-1, 1]) {
+      beams.push({
+        x: side < 0 ? e[0] : e[1],
+        y,
+        aim: side * (0.5 + Math.random() * 0.35),
+        swing: 0.3 + Math.random() * 0.2,
+        speed: 0.00035 + Math.random() * 0.0003,
+        phase: Math.random() * Math.PI * 2,
+        spread: 0.03 + Math.random() * 0.012,
+      })
+    }
+  }
+  // Two crossing beams from the spire.
+  for (const side of [-1, 1]) {
+    beams.push({ x: shape[0][0], y: minY + 0.01, aim: side * 0.12, swing: 0.45, speed: 0.0003, phase: side < 0 ? 0 : Math.PI, spread: 0.028 })
+  }
+  return beams
+}
+
 // A pre-rendered glint: hot white core, soft halo, faint four-point flare.
 function makeSprite(size) {
   const c = document.createElement('canvas')
@@ -46,11 +85,12 @@ function makeSprite(size) {
 /**
  * Burj-style white strobe lights covering the tower outline: a field of
  * steady embers, hundreds of rapid flashes, and a wave of light that runs up
- * the tower every `autoSweep` ms (0 turns it off).
+ * the tower every `autoSweep` ms (0 turns it off). With `beams`, moving
+ * searchlights swing out from the tower's edges and spire.
  * Sits over an <img>/<video> with object-fit: cover and reproduces its crop.
  */
 const Sparkles = forwardRef(function Sparkles(
-  { shape, aspect, count = 1400, intensity = 1, objectX = 0.5, autoSweep = 3600, className = '' },
+  { shape, aspect, count = 1400, intensity = 1, objectX = 0.5, autoSweep = 3600, beams = false, className = '' },
   ref,
 ) {
   const canvasRef = useRef(null)
@@ -99,6 +139,8 @@ const Sparkles = forwardRef(function Sparkles(
         waveHit: -1,
       })
     }
+
+    const lights = beams ? makeBeams(shape, minY, maxY) : []
 
     let W = 0
     let H = 0
@@ -151,6 +193,42 @@ const Sparkles = forwardRef(function Sparkles(
       // Tower-relative scale: lights shrink as the viewport shrinks.
       const unit = Math.max(0.7, map.s / 900)
 
+      // Searchlight beams first, so the strobes sit on top of them.
+      const boost = front !== null ? 1.5 : 1
+      const len = map.s * 1.3
+      for (const b of lights) {
+        const x = map.ox + b.x * map.iw * map.s
+        const y = map.oy + b.y * map.s
+        const ang = b.aim + (reduce ? 0 : Math.sin(now * b.speed + b.phase) * b.swing)
+        const dx = Math.sin(ang)
+        const dy = -Math.cos(ang)
+        const px = -dy
+        const py = dx
+        // Soft haze around a brighter core reads as a real searchlight.
+        const cone = (spread, a0, a1) => {
+          const w = Math.tan(spread) * len
+          const g = ctx.createLinearGradient(x, y, x + dx * len, y + dy * len)
+          g.addColorStop(0, `rgba(255,244,228,${a0 * k * boost})`)
+          g.addColorStop(0.4, `rgba(255,236,214,${a1 * k * boost})`)
+          g.addColorStop(1, 'rgba(255,230,205,0)')
+          ctx.fillStyle = g
+          ctx.beginPath()
+          ctx.moveTo(x + px * 1.5 * unit, y + py * 1.5 * unit)
+          ctx.lineTo(x + dx * len + px * w, y + dy * len + py * w)
+          ctx.lineTo(x + dx * len - px * w, y + dy * len - py * w)
+          ctx.lineTo(x - px * 1.5 * unit, y - py * 1.5 * unit)
+          ctx.fill()
+        }
+        cone(b.spread * 2.4, 0.1, 0.035)
+        cone(b.spread * 1.3, 0.12, 0.04)
+        cone(b.spread * 0.55, 0.2, 0.06)
+        // the lamp itself
+        const sz = 22 * unit
+        ctx.globalAlpha = Math.min(1, 0.9 * k)
+        ctx.drawImage(sprite, x - sz / 2, y - sz / 2, sz, sz)
+        ctx.globalAlpha = 1
+      }
+
       for (const p of pts) {
         if (!reduce && now >= p.next) {
           p.flashAt = now
@@ -183,7 +261,7 @@ const Sparkles = forwardRef(function Sparkles(
       ro.disconnect()
       io.disconnect()
     }
-  }, [shape, aspect, count, objectX, autoSweep])
+  }, [shape, aspect, count, objectX, autoSweep, beams])
 
   return <canvas ref={canvasRef} aria-hidden className={`pointer-events-none absolute inset-0 h-full w-full ${className}`} />
 })

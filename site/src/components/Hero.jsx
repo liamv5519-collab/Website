@@ -34,7 +34,7 @@ export default function Hero() {
           fetchPriority="high"
           decoding="async"
         />
-        <Sparkles shape={towerShape} aspect={assets.hero.w / assets.hero.h} count={1300} objectX={focusX} />
+        <Sparkles shape={towerShape} aspect={assets.hero.w / assets.hero.h} count={1300} objectX={focusX} beams />
       </div>
 
       <div aria-hidden className="hero-shade pointer-events-none absolute inset-0 bg-ink opacity-0" />
